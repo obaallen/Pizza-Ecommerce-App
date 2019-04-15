@@ -1,0 +1,58 @@
+{% extends "orders/base.html" %}
+{% load static %}
+
+{% block heading %}
+    Order your {{ product.name }}
+{% endblock %}
+
+{% block body %}
+<hr>
+<div class="pagepad row shadow-sm" id="selectitem">
+    <div class="col-1">
+    </div>
+    <div class="col-5 shadow-sm headerimg">
+        <img src="{% static 'orders/images/' %}{{ product.name }}.jpg" id="bgcontent" alt="bg" width="100%" >
+    </div>
+   <div class="col-5">
+       <form action="{% url 'addtocart' %}" method="POST">{% csrf_token %}
+         <h4 class="mb-3">Choose your style:</h4>
+
+         <div class="d-block row my-3">
+           <div class="col-sm">
+             {% for productline in productlines %}
+             <input name="productline" type="radio" value="{{ productline.id }}" required>{{ productline.name }}<br>
+             {% endfor %}
+           </div>
+
+         </div>
+         <hr class="mb-4">
+         <b>Size</b><br>
+         {% for size in sizes %}
+           <input name="size" type="radio" value="{{ size.id }}" required>{{ size.size }}<br>
+         {% endfor %}
+        <hr class="mb-4">
+
+        <b>Toppings</b>
+        <select class="custom-select" multiple>
+          {% for topping in toppings %}
+          <option name="toppings" value="{{ topping.id }}">{{ topping.name }}</option>
+          {% endfor %}
+        </select>
+        <hr class="mb-4">
+        <b>Extras</b>
+
+        <div class="custom-control row custom-checkbox">
+          {% for addon in addons %}
+          <input type="checkbox" name="addon" value="{{ addon.id }}"> {{ addon.name }}<br>+$ {{ addon.price }}<br>
+          {% endfor %}
+        </div>
+
+        <hr class="mb-4">
+        <button type="submit" class="btn btn-primary">Add to Cart</button>
+      </form>
+    </div>
+    <div class="col-1">
+    </div>
+</div>
+
+{% endblock %}

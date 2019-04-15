@@ -1,0 +1,43 @@
+{% extends "orders/base.html" %}
+
+{% block heading %}
+    Register to place orders!
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="row pagepad">
+    <div class="col-3">
+    </div>
+    <div class="col-6">
+      <form class="px-4 py-3"  action="{% url 'registered' %}" method="POST">{% csrf_token %}
+        <div class="form-group">
+          <label>Username*</label>
+          <input type="text" name="username" class="form-control" placeholder="Username">
+        </div>
+        <div class="form-group">
+          <label>Password*</label>
+          <input type="password" name="password" class="form-control" placeholder="Password">
+        </div>
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" name="first_name" class="form-control" placeholder="e.g John">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" name="last_name" class="form-control" placeholder="e.g Doe">
+        </div>
+        <div class="form-group">
+          <label>Email*</label>
+          <input type="email" name="email" class="form-control" placeholder="email@example.com">
+        </div>
+        <button type="submit" class="btn btn-primary">Sign me up!</button>
+      </form>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="{% url 'login' %}">Already have an account? Log in</a>
+    </div>
+    <div class="col-3">
+    </div>
+  </div>
+</div>
+{% endblock %}

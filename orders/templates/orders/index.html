@@ -1,0 +1,28 @@
+{% extends "orders/base.html" %}
+{% load static %}
+
+{% block body %}
+  <div class="row shadow-sm headerimg">
+      <div>
+        <img src="{% static 'orders/images/pizza_cover.jpg' %}" id="bgcontent" alt="bg" width="100%" >
+      </div>
+    </div>
+
+  <section class="container sectionpadding">
+    <div class="row card-deck mb-3 text-center">
+      {% for product in products %}
+      <div class="col-sm-6 col-lg-4">
+        <div class="card mb-4 shadow-sm">
+          <img src="{% static 'orders/images/' %}{{ product.name }}.jpg" class="card-img-top" alt="{{ product.name }}" >
+          <div class="card-body">
+            <h1 class="card-title">{{ product.name }}</h1>
+            <a href="{% url 'select' product.id %}"><button type="button" class="btn btn-lg btn-block">Select Options</button></a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </section>
+
+{% endblock %}

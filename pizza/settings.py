@@ -68,6 +68,8 @@ TEMPLATES = [
     },
 ]
 
+LOGIN_REDIRECT_URL = '/'
+
 WSGI_APPLICATION = 'pizza.wsgi.application'
 
 

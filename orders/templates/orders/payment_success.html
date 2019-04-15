@@ -1,0 +1,17 @@
+{% extends "orders/base.html" %}
+{% load static %}
+
+{% block heading %}
+    Payment Complete!
+{% endblock %}
+
+{% block body %}
+<div class="container shoppingcart">
+    <div class="alert alert-success" role="alert">
+      Payment is now complete. Come pick up your order.
+    </div>
+    <div class="center p-3">
+      <a href="{% url 'index' %}"><button type="submit" class="btn btn-primary">Place another order</button></a>
+    </div>
+</div>
+{% endblock %}

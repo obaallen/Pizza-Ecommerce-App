@@ -1,0 +1,41 @@
+{% extends "orders/base.html" %}
+{% load static %}
+
+{% block heading %}
+    Review your Cart
+{% endblock %}
+
+{% block body %}
+{% if purchases %}
+    <div class="container shoppingcart">
+      <div>
+        <ul class="cart rounded" id="cart">
+          {% for purchase in purchases %}
+          <li>{{ purchase.size }} {{ purchase.productlines }} {{ purchase.product }} - ${{ purchase.TotalPrice }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <span class="right">Total Price: <b>${{ total_price }}</b></span>
+      <div class="right p-3">
+      <form action="{% url 'payment' %}" method="POST">{% csrf_token %}
+        <script
+          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="pk_test_TYooMQauvdEDq54NiTphI7jx"
+          data-amount="{% widthratio total_price 1 100 %}"
+          data-name="Pinocchio's Pizza & Subs"
+          data-description="Pizza charge"
+          data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+          data-locale="auto"
+          data-zip-code="true">
+        </script>
+      </form>
+      </div>
+    </div>
+{% else %}
+    <div class="container shoppingcart alert alert-info" role="alert">
+      No items in your cart.
+    </div>
+{% endif %}
+
+{% endblock %}
