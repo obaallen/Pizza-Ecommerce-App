@@ -21,3 +21,5 @@ To use the stripe payment, you will need to use
 - Any three-digit CVC code
 - Any expiration date in the future
 - Any billing postal code, such as 12345
+
+To view orders, the admin can go to the 'Purchases' table and view all orders with 'status = complete'

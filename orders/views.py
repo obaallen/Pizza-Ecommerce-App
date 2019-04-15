@@ -55,6 +55,9 @@ def logout_view(request):
     return redirect('login_page')
 
 def select(request, productid):
+    if not request.user.is_authenticated:
+        return redirect('login_page')
+
     try:
         product = Product.objects.get(pk=productid)
         productlines = Productline.objects.all().filter(product=productid)
@@ -75,12 +78,10 @@ def addtocart(request):
     productinstance = Productline.objects.get(pk=productline)
     size = request.POST["size"]
     sizeInstance = Size.objects.get(pk=size)
-    addon = request.POST["addon"]
-    addonPrice = AddOn.objects.get(pk=addon)
+    addon = request.POST.get("addon", False)
     toppings = request.POST.get('toppings', False)
     price = Price.objects.get(productlines=productline, size=size)
     current_user = request.user
-    # total_price = price.price + addonPrice.price
 
     purchase = Purchase()
     purchase.product = productinstance.product
@@ -97,9 +98,12 @@ def addtocart(request):
     return redirect('cart')
 
 def cart(request):
+    if not request.user.is_authenticated:
+        return redirect('login_page')
+
     currentuser = request.user
-    purchases = Purchase.objects.all().filter(user=currentuser)
-    TotalPrice = sum(purchase.TotalPrice for purchase in purchases) #purchases.aggregate(Sum('unitprice'))
+    purchases = Purchase.objects.all().filter(user=currentuser, status='New')
+    TotalPrice = sum(purchase.TotalPrice for purchase in purchases)
     context = {
         "purchases": purchases,
         "total_price": TotalPrice
@@ -108,5 +112,5 @@ def cart(request):
 
 def payment(request):
     currentuser = request.user
-    Purchase.objects.filter(user=currentuser).delete()
+    Purchase.objects.all().filter(user=currentuser).update(status='Complete')
     return render(request, "orders/payment_success.html")
